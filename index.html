@@ -8,7 +8,28 @@
     <link rel="stylesheet" href="/assets/css/util.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/style.css">
-    <title>Document</title>
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- apple pwa config ------------------ -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="UMPWA">
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple/icon-57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple/icon-60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple/icon-72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple/icon-76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple/icon-114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple/icon-120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple/icon-144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple/icon-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple/icon-180.png">
+    
+    <!-- IE pwa config ------------------ -->
+    <meta name="msapplication-TileImage" content="/assets/images/icons/original/icon-144.png">
+    <meta name="msapplication-TileColor" content="#fff">
+    <meta name="theme-color" content="#1e88e5">
+
+    <title>UMPWA</title>
 </head>
 <body>
 
@@ -20,6 +41,7 @@
           <ul class="hide-on-med-and-down">
             <li><a href="/" class="blue-text">Home</a></li>
             <li><a href="/users.html" class="blue-text">User Management</a></li>
+            <li><a href="/media.html" class="blue-text">Media</a></li>
             <li><a href="https://codeyad.com" class="blue-text">Codeyad</a></li>
             <li><a href="https://www.youtube.com/channel/UC7_WFOLcQ4x9HCat_pE3hcA" class="blue-text">AQ fast learn</a></li>
           </ul>
@@ -53,6 +75,7 @@
       <li><a class="subheader">Pages:</a></li>
       <li><a class="waves-effect" href="/">Home</a></li>
       <li><a class="waves-effect" href="/users.html">Users</a></li>
+      <li><a class="waves-effect" href="/media.html">Media</a></li>
     </ul>
   <!-- navbar section ---------end------- -->
 
@@ -64,6 +87,18 @@
       <a href="/users.html" class="waves-effect waves-light btn blue darken-3 w-full max-w-250 m-t-10 mb-10 rounded_pill">Users Manager</a>
     </section>
   <!-- home section ---------end------- -->
+
+  <div id="install-prompt" class="hide-on-med-and-up">
+    Install UMPWA on home screen
+  </div>
+
+  <span id="notification_bell_box" class="dis-none">
+    <i class="material-icons">notifications_active</i>
+  </span>
+
+  <span id="network_status">
+    <i class="material-icons">wifi</i>
+  </span>
 
 
   <script src="/assets/materialize/js/materialize.min.js"></script>

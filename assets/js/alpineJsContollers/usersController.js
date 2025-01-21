@@ -17,13 +17,33 @@ document.addEventListener('alpine:init', () => {
         userIdToEdit: null,
         getUsers(){
             this.isLoading = true
+            let serverDataReceived = false
             axios.get("https://jsonplaceholder.typicode.com/users").then((res)=>{
+                serverDataReceived = true
+                res.data[0].name = "qasem"
                 this.mainUsers = res.data
                 this.users = res.data
                 this.pagination()
             }).finally(()=>{
                 this.isLoading = false
             })
+
+            if ("caches" in window) {
+                caches.match("https://jsonplaceholder.typicode.com/users").then(res=>{
+                    if (res) {
+                        return res.json()
+                    }
+                }).then(response=>{
+                    if (!serverDataReceived && response) {
+                        this.mainUsers = response
+                        this.users = response
+                        this.pagination()
+                    }
+                }).finally(()=>{
+                    this.isLoading = false
+                })
+            }
+
         },
         pagination(){
             this.pageCount = Math.ceil(this.users.length / this.itemsCount) // 10 / 4 = 3
@@ -52,18 +72,33 @@ document.addEventListener('alpine:init', () => {
             this.pagination()
         },
         handleSubmitAddUserForm(){
-            this.isLoading = true
-            axios.post("https://jsonplaceholder.typicode.com/users", this.newUserInfo).then((res)=>{
-                if (res.status === 201) {
-                    this.mainUsers.push(res.data)
-                    this.showAddModal= false
-                    this.handleResetForm()
-                    this.pagination()
-                    M.toast({html: 'User created successfully...', classes: 'green'})
-                }
-            }).finally(()=>{
-                this.isLoading = false
-            })
+            if ('serviceWorker' in navigator && 'SyncManager' in window){
+                navigator.serviceWorker.ready.then(sw=>{
+                    const data = {
+                        ...this.newUserInfo,
+                        id: new Date().toISOString()
+                    }                    
+                    createData("postDataStore", data).then(()=>{
+                        sw.sync.register('syncPostData')
+                        console.log('successful sync...');
+                        this.showAddModal= false
+                        M.toast({html: 'New user is in the sending queue', classes: 'orange'})
+                    })
+                })
+            }else{
+                this.isLoading = true
+                axios.post("https://jsonplaceholder.typicode.com/users", this.newUserInfo).then((res)=>{
+                    if (res.status === 201) {
+                        this.mainUsers.push(res.data)
+                        this.showAddModal= false
+                        this.handleResetForm()
+                        this.pagination()
+                        M.toast({html: 'User created successfully...', classes: 'green'})
+                    }
+                }).finally(()=>{
+                    this.isLoading = false
+                })
+            }
         },
         handleResetForm(){
             this.newUserInfo = {
